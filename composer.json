@@ -2,7 +2,7 @@
   "name" : "studioraz/magento2-directory",
   "description" : "Studio Raz Magento 2 Directory Module",
   "type" : "magento2-module",
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
   "version" : "1.0.0",
   "license": [
     "OSL-3.0",
