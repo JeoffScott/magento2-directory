@@ -2,7 +2,7 @@
   "name" : "studioraz/magento2-directory",
   "description" : "Studio Raz Magento 2 Directory Module",
   "type" : "magento2-module",
-  "minimum-stability": "dev",
+  "prefer-stable": true,
   "version" : "1.0.0",
   "license": [
     "OSL-3.0",
@@ -11,7 +11,7 @@
   "require": {
     "php": "~5.5.0|~5.6.0|~7.0.0",
     "magento/framework": "100.1.*",
-    "studioraz/magento2-base" : "^1.0"
+    "studioraz/magento2-base" : "dev-master"
   },
   "autoload": {
     "files": [ "registration.php" ],
