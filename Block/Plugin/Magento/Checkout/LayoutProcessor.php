@@ -99,7 +99,8 @@ class LayoutProcessor
                 ]
             ],
             'options' => [
-                'source' => $this->_citySource->getAllOptions()
+                'data' => $this->_citySource->getAllOptions(),
+                'validateValue' => true
             ],
             'sortOrder' => 65 // city should come before street. street position is 70.
         ];

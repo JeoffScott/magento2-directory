@@ -30,9 +30,11 @@ define([
         update: function (city) {
 
             if (!city) {
-                this.options.source = null;
+                this.options.data = null;
                 return;
             }
+
+            this.value('');
 
             if (this._xhr) {
                 this._xhr.abort();
@@ -46,7 +48,7 @@ define([
                     "city": city
                 },
                 success: $.proxy(function (items) {
-                    this.options.source = items;
+                    this.options.data = items;
                 }, this)
             }, this.options.ajaxOptions || {}));
         },
