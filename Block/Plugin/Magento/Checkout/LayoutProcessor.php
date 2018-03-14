@@ -72,7 +72,8 @@ class LayoutProcessor
                 ]
             ],
             'options' => [
-                'sourceUrl' => $this->_context->getUrlBuilder()->getUrl('srdirectory/ajax/getstreets')
+                'sourceUrl' => $this->_context->getUrlBuilder()->getUrl('srdirectory/ajax/getstreets'),
+                'validateValue' => true
             ],
             'sortOrder' => 60
         ]);
