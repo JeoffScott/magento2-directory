@@ -8,21 +8,50 @@ namespace SR\Directory\Block\Plugin\Magento\Checkout;
 
 class LayoutProcessor
 {
+    /**
+     * @var \Magento\Backend\Block\Template\Context
+     */
     protected $_context;
+
+    /**
+     * @var \SR\Directory\Model\Config\Source\Cities
+     */
     protected $_citySource;
+
+    /**
+     * @var \SR\Directory\Model\Config\Source\Streets
+     */
     protected $_streetSource;
 
+    /**
+     * @var \SR\Directory\Helper\Data
+     */
+    protected $helper;
+
+    /**
+     * LayoutProcessor constructor.
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \SR\Directory\Model\Config\Source\Cities $cities
+     * @param \SR\Directory\Model\Config\Source\Streets $streets
+     */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \SR\Directory\Model\Config\Source\Cities $cities,
-        \SR\Directory\Model\Config\Source\Streets $streets
+        \SR\Directory\Model\Config\Source\Streets $streets,
+        \SR\Directory\Helper\Data $helper
     )
     {
         $this->_context = $context;
         $this->_citySource = $cities;
         $this->_streetSource = $streets;
+        $this->helper = $helper;
     }
 
+    /**
+     * @param \Magento\Checkout\Block\Checkout\LayoutProcessor $subject
+     * @param array $jsLayout
+     * @return array
+     */
     public function afterProcess(\Magento\Checkout\Block\Checkout\LayoutProcessor $subject, array $jsLayout)
     {
 
@@ -53,8 +82,74 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'] = $_streetLines;
 
+        $houseNumberAttributeCode = 'house_number';
+
+        $houseNumberField = $this->getFields('shippingAddress.custom_attributes','shipping');
+
+        $jsLayout['components']['checkout']['children']['steps']['children']
+        ['shipping-step']['children']['shippingAddress']['children']
+        ['shipping-address-fieldset']['children'][$houseNumberAttributeCode] = $houseNumberField[$houseNumberAttributeCode];
 
         return $jsLayout;
+    }
+
+    /**
+     * @param string $addressType
+     * @return array
+     */
+    public function getAdditionalFields($addressType = 'shipping')
+    {
+        return $this->helper->getExtraCheckoutAddressFields('extra_checkout_shipping_address_fields');
+    }
+
+    /**
+     * @param $scope
+     * @param $addressType
+     * @return array
+     */
+    public function getFields($scope, $addressType)
+    {
+        $fields = [];
+        foreach ($this->getAdditionalFields($addressType) as $field) {
+            $fields[$field] = $this->getField($field, $scope);
+        }
+        return $fields;
+    }
+
+    /**
+     * @param $attributeCode
+     * @param $scope
+     * @return array
+     */
+    public function getField($attributeCode,$scope)
+    {
+
+        $field = [
+            'component' => 'Magento_Ui/js/form/element/abstract',
+            'config' => [
+                // customScope is used to group elements within a single form (e.g. they can be validated separately)
+                'customScope' => $scope,
+                'customEntry' => null,
+                'template' => 'ui/form/field',
+                'elementTmpl' => 'ui/form/element/input',
+                'tooltip' => [
+                    'description' => __('Enter house number separate from street'),
+                ],
+            ],
+            'dataScope' => $scope . '.' . $attributeCode,
+            'label' => __('House Number'),
+            'provider' => 'checkoutProvider',
+            'sortOrder' => 70   ,
+            'validation' => [
+                'required-entry' => true, 'min_text_len‌​gth' => 1, 'max_text_length' => 10
+            ],
+            'options' => [],
+            'filterBy' => null,
+            'customEntry' => null,
+            'visible' => true,
+        ];
+
+        return $field;
     }
 
     /**
