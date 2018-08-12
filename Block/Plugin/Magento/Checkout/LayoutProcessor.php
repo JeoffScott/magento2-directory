@@ -163,7 +163,7 @@ class LayoutProcessor
             'config' => [
                 'elementTmpl' => 'SR_Base/form/element/autocomplete',
                 'tooltip' => [
-                    'description' => __('Start typing to search for your street. Add home number and floor if needed.'),
+                    'description' => __('Start typing to search for your street.'),
                 ]
             ],
             'options' => [
