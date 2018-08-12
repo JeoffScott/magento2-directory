@@ -133,7 +133,7 @@ class LayoutProcessor
                 'template' => 'ui/form/field',
                 'elementTmpl' => 'ui/form/element/input',
                 'tooltip' => [
-                    'description' => __('Enter house number separate from street'),
+                    'description' => __('Enter house number.'),
                 ],
             ],
             'dataScope' => $scope . '.' . $attributeCode,
