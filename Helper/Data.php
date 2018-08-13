@@ -39,13 +39,13 @@ class Data extends AbstractHelper{
      * @param string $root
      * @return array
      */
-    public function getExtraCheckoutAddressFields($fieldset = 'extra_checkout_shipping_address_fields', $root = 'global')
+    public function getExtraCheckoutAddressFields($fieldset = 'extra_checkout_billing_address_fields', $root = 'global')
     {
         $fields = $this->fieldsetConfig->getFieldset($fieldset, $root);
 
         $extraCheckoutFields = [];
 
-        foreach ($fields as $field => $fieldInfo) {
+        foreach($fields as $field => $fieldInfo) {
             $extraCheckoutFields[] = $field;
         }
 

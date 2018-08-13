@@ -40,11 +40,12 @@ class UpgradeData implements UpgradeDataInterface
      */
     public function upgrade( ModuleDataSetupInterface $setup, ModuleContextInterface $context ) {
 
+        $attributeCode = 'house_number';
+
+        $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+
         if ( version_compare( $context->getVersion(), '1.0.1', '<' ) ) {
 
-            $attributeCode = 'house_number';
-
-            $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
 
             $customerSetup->addAttribute('customer_address', $attributeCode, [
                 'label' => 'House Number',
@@ -90,5 +91,16 @@ class UpgradeData implements UpgradeDataInterface
                 ]
             );
         }
+
+        if ( version_compare( $context->getVersion(), '1.0.2', '<' ) )  {
+            $attribute = $customerSetup->getEavConfig()->getAttribute('customer_address', $attributeCode)
+                ->addData(['used_in_forms' => [
+                    'adminhtml_customer_address',
+                    'adminhtml_checkout',
+                    'customer_address'
+                ]]);
+            $attribute->save();
+        }
+
     }
 }

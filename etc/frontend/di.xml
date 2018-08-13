@@ -10,4 +10,12 @@
     <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
         <plugin name="studioraz_directory_checkout_layout_processor" type="SR\Directory\Block\Plugin\Magento\Checkout\LayoutProcessor" sortOrder="100"/>
     </type>
+
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="experius_extra_checkout_address_fields_layoutprocessor" xsi:type="object">SR\Directory\Block\Checkout\LayoutProcessor</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
