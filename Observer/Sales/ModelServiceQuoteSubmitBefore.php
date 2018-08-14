@@ -48,6 +48,12 @@ class ModelServiceQuoteSubmitBefore implements \Magento\Framework\Event\Observer
 
         $quote = $this->quoteRepository->get($order->getQuoteId());
 
+        $this->helper->transportFieldsFromExtensionAttributesToObject(
+            $quote->getBillingAddress(),
+            $order->getBillingAddress(),
+            'extra_checkout_billing_address_fields'
+        );
+
         if ($order->getShippingAddress()) {
             $this->helper->transportFieldsFromExtensionAttributesToObject(
                 $quote->getShippingAddress(),
