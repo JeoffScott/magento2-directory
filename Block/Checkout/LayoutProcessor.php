@@ -147,7 +147,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
             'dataScope' => $scope . '.' . $attributeCode,
             'label' => __('House Number'),
             'provider' => 'checkoutProvider',
-            'sortOrder' => 70   ,
+            'sortOrder' => 75,
             'validation' => [
                 'required-entry' => true, 'min_text_len‌​gth' => 1, 'max_text_length' => 10
             ],
