@@ -141,7 +141,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 'template' => 'ui/form/field',
                 'elementTmpl' => 'ui/form/element/input',
                 'tooltip' => [
-                    'description' => __('Enter house number separate from street'),
+                    'description' => __('Enter house number. If you don\'t have one enter 0.'),
                 ],
             ],
             'dataScope' => $scope . '.' . $attributeCode,
