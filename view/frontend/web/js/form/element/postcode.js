@@ -13,7 +13,8 @@ define([
     return Postcode.extend({
         defaults: {
             "listens": {
-                "${ $.parentName }.street.0:value": "updatePostcode"
+                "${ $.parentName }.street.0:value": "updatePostcode",
+                "${ $.parentName }.city:value": "updatePostcode"
             }
         },
 
@@ -33,21 +34,25 @@ define([
         updateValue: function(response) {
             var responseText = this.getResponseText(response);
             var regex = /(RES)\d{6,}/i;
+            var regexErr = /(\D*)$/;
 
             if(regex.test(responseText)){
                 this.value(responseText.substr(responseText.length - 7));
+            } else {
+                this.error(responseText.match(regexErr)[1]);
             }
         },
 
         /**
-         * @param {String} street
+         * Update postcode
          */
-        updatePostcode: function (street) {
+        updatePostcode: function () {
             var city = registry.get(this.parentName + '.city').value();
+            var street = registry.get(this.parentName + '.street.0').value();
             var house = registry.get(this.parentName + '.house_number').value() || null;
             this.value('');
 
-            if(!city || !street) {
+            if(!city && !street) {
                 return;
             }
 
