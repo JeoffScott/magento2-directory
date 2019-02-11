@@ -75,6 +75,15 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'] = $_streetLines;
 
+
+        $postCodeConfig = $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode'];
+
+        $postCodeConfig = $this->_getPostcodeComponentConfig($postCodeConfig);
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode'] = $postCodeConfig;
+
         return $jsLayout;
     }
 
@@ -130,4 +139,19 @@ class LayoutProcessor
         return array_merge($cityConfig, $_cityConfig);
     }
 
+    /**
+     * @param $postCodeConfig
+     * @return array
+     */
+    private function _getPostcodeComponentConfig($postCodeConfig)
+    {
+        $_postCodeConfig = [
+            'component' => 'SR_Directory/js/form/element/postcode',
+            'options' => [
+                'sourceUrl' => 'https://www.israelpost.co.il/zip_data.nsf/SearchZip',
+            ],
+        ];
+
+        return array_merge($postCodeConfig, $_postCodeConfig);
+    }
 }
