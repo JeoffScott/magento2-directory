@@ -5,7 +5,7 @@
 
 define([
     'uiRegistry',
-    'Magento_UI/js/form/element/post-code',
+    'Magento_Ui/js/form/element/post-code',
     'jquery'
 ], function (registry, Postcode, $) {
     'use strict';
