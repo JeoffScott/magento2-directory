@@ -72,7 +72,7 @@ define([
                     "Entrance": null
                 },
                 success: $.proxy(function (response) {
-                    this.updateValue(response)
+                    this.updateValue(response.postcode)
                 }, this)
             }, this.options.ajaxOptions || {}));
         }
