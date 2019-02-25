@@ -148,7 +148,7 @@ class LayoutProcessor
         $_postCodeConfig = [
             'component' => 'SR_Directory/js/form/element/postcode',
             'options' => [
-                'sourceUrl' => 'https://www.israelpost.co.il/zip_data.nsf/SearchZip',
+                'sourceUrl' => $this->_context->getUrlBuilder()->getUrl('srdirectory/ajax/getpostcode'),
             ],
         ];
 
