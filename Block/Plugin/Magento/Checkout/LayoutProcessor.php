@@ -78,7 +78,6 @@ class LayoutProcessor
 
         $postCodeConfig = $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode'];
-
         $postCodeConfig = $this->_getPostcodeComponentConfig($postCodeConfig);
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
@@ -147,6 +146,11 @@ class LayoutProcessor
     {
         $_postCodeConfig = [
             'component' => 'SR_Directory/js/form/element/postcode',
+            'config' => [
+                'customScope' => 'shippingAddress',
+                'template' => 'ui/form/field',
+                'elementTmpl' => 'SR_Directory/form/element/postcode',
+            ],
             'options' => [
                 'sourceUrl' => $this->_context->getUrlBuilder()->getUrl('srdirectory/ajax/getpostcode'),
             ],
