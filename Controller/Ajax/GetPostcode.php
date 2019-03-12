@@ -8,21 +8,17 @@ namespace SR\Directory\Controller\Ajax;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\HTTP\Client\Curl;
 
 class GetPostcode extends \Magento\Framework\App\Action\Action
 {
     protected $jsonFactory;
-    protected $curl;
     const API_URL = 'https://www.israelpost.co.il/zip_data.nsf/SearchZip';
 
     public function __construct(
         Context $context,
-        JsonFactory $jsonFactory,
-        Curl $curl
+        JsonFactory $jsonFactory
     )
     {
-        $this->curl = $curl;
         $this->jsonFactory = $jsonFactory;
         parent::__construct($context);
     }
@@ -35,13 +31,16 @@ class GetPostcode extends \Magento\Framework\App\Action\Action
 
         if ($this->getRequest()->isAjax()) {
 
-            $this->getCurlClient()->get(self::API_URL . '?'. http_build_query($params));
-            $this->getCurlClient()->setOption(CURLOPT_RETURNTRANSFER, 1);
-
-            $resultData['postcode'] = $this->curl->getBody();
-
-            return $result->setData($resultData);
+            if($curl = curl_init()){
+                curl_setopt($curl, CURLOPT_URL, self::API_URL . '?'. http_build_query($params));
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER,1);
+                $resultData['postcode'] = curl_exec($curl);
+            }
         }
+
+        return $result->setData($resultData);
     }
 
     /**

@@ -6,16 +6,22 @@
 define([
     'uiRegistry',
     'Magento_Ui/js/form/element/post-code',
-    'jquery'
-], function (registry, Postcode, $) {
+    'jquery',
+    'mage/translate',
+    'ko'
+], function (registry, Postcode, $, ko) {
     'use strict';
 
     return Postcode.extend({
         defaults: {
-            "listens": {
-                "${ $.parentName }.street.0:value": "updatePostcode",
-                "${ $.parentName }.city:value": "updatePostcode"
-            }
+            additionalClasses: 'postcode-field'
+        },
+
+        initObservable: function () {
+            this._super();
+            this.observe('isLoading');
+
+            return this;
         },
 
         /**
@@ -51,14 +57,17 @@ define([
             var street = registry.get(this.parentName + '.street.0').value();
             var house = registry.get(this.parentName + '.house_number').value() || null;
             this.value('');
+            this.warn('');
 
             if(!city && !street) {
+                this.warn($.mage.__('Please choose city and street'));
                 return;
             }
 
             if (this._xhr) {
                 this._xhr.abort();
             }
+            this.isLoading(true);
 
             this._xhr = $.ajax($.extend(true, {
                 url: this.options.sourceUrl,
@@ -72,7 +81,8 @@ define([
                     "Entrance": null
                 },
                 success: $.proxy(function (response) {
-                    this.updateValue(response.postcode)
+                    this.updateValue(response.postcode);
+                    this.isLoading(false);
                 }, this)
             }, this.options.ajaxOptions || {}));
         }
