@@ -36,18 +36,13 @@ class GetPostcode extends \Magento\Framework\App\Action\Action
                 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
                 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER,1);
-                $resultData['postcode'] = curl_exec($curl);
+
+                $dom = new \DOMDocument();
+                $dom->loadHTML(curl_exec($curl));
+                $resultData['postcode'] = trim($dom->getElementsByTagName('body')->item(0)->textContent);
             }
         }
 
         return $result->setData($resultData);
-    }
-
-    /**
-     * @return Curl
-     */
-    protected function getCurlClient()
-    {
-        return $this->curl;
     }
 }

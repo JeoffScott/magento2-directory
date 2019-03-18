@@ -25,25 +25,14 @@ define([
         },
 
         /**
-         * Parse html and return response text
-         * @param html
+         * @param responseText
          */
-        getResponseText: function(html) {
-            var wrapper = $('<div/>');
-            var htmlContent = $.parseHTML(html);
-            return $.trim(wrapper.append(htmlContent).text());
-        },
-
-        /**
-         * @param response
-         */
-        updateValue: function(response) {
-            var responseText = this.getResponseText(response);
-            var regex = /(RES)\d{6,}/i;
+        updateValue: function(responseText) {
+            var regex = /(RES)\d{6,}$/i;
             var regexErr = /(\D*)$/;
 
             if(regex.test(responseText)){
-                this.value(responseText.substr(responseText.length - 7));
+                this.value(regex.exec(responseText)[0].substr(responseText.length - 7));
             } else {
                 this.error(responseText.match(regexErr)[1]);
             }
