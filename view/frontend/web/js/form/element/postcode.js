@@ -34,7 +34,7 @@ define([
             if(regex.test(responseText)){
                 this.value(regex.exec(responseText)[0].substr(responseText.length - 7));
             } else {
-                this.error(responseText.match(regexErr)[1]);
+                this.error($.mage.__('Postcode could not be found. Please check your address and try again.'));
             }
         },
 
