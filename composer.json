@@ -3,6 +3,7 @@
   "description" : "Studio Raz Magento 2 Directory Module",
   "type" : "magento2-module",
   "prefer-stable": true,
+  "version" : "2.0.6",
   "license": [
     "OSL-3.0",
     "AFL-3.0"
