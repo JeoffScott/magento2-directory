@@ -7,6 +7,9 @@
         <plugin disabled="false" name="SR_Directory_Plugin_Magento_Checkout_Model_PaymentInformationManagement" sortOrder="10" type="SR\Directory\Plugin\Magento\Checkout\Model\PaymentInformationManagement"/>
     </type>
     <type name="Magento\Quote\Model\BillingAddressManagement">
-        <plugin disabled="false" name="Experius_ExtraCheckoutAddressFields_Plugin_Magento_Quote_Model_BillingAddressManagement" sortOrder="10" type="SR\Directory\Plugin\Magento\Quote\Model\BillingAddressManagement"/>
+        <plugin disabled="false" name="SR_Directory_Plugin_Magento_Checkout_Model_BillingAddressManagement" sortOrder="10" type="SR\Directory\Plugin\Magento\Quote\Model\BillingAddressManagement"/>
+    </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin disabled="false" name="SR_Directory_Plugin_Magento_Checkout_Model_GuestPaymentInformationManagement" sortOrder="10" type="SR\Directory\Plugin\Magento\Checkout\Model\GuestPaymentInformationManagement"/>
     </type>
 </config>
