@@ -17,5 +17,14 @@ var config = {
                 'SR_Directory/js/action/set-billing-address-mixin': true
             }
         }
+    },
+    map: {
+        '*': {
+            'Magento_Checkout/template/billing-address/details.html':
+                'SR_Directory/template/billing-address/details.html',
+            'Magento_Checkout/template/shipping-information/address-renderer/default.html':
+                'SR_Directory/template/shipping-information/address-renderer/default.html',
+        },
+
     }
 };
