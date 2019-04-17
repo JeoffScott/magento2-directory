@@ -83,6 +83,30 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode'] = $postCodeConfig;
 
+        foreach ($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                 ['payment']['children']['payments-list']['children'] as $key => $payment) {
+
+            if (isset($payment['children']['form-fields']['children'])) {
+
+                $cityConfig =  $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']
+                ['payments-list']['children'][$key]['children']['form-fields']['children']['city'];
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']
+                ['payments-list']['children'][$key]['children']['form-fields']['children']['city'] =  $this->_getCityBillingComponentConfig($cityConfig);
+
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']
+                ['payments-list']['children'][$key]['children']['form-fields']['children']['street']['children'] = $_streetLines;
+
+                $postCodeConfig = $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']
+                ['payments-list']['children'][$key]['children']['form-fields']['children']['postcode'];
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']
+                ['payments-list']['children'][$key]['children']['form-fields']['children']['postcode'] =  $this->_getPostcodeBillingComponentConfig($postCodeConfig);
+            }
+
+        }
+
         return $jsLayout;
     }
 
@@ -139,6 +163,30 @@ class LayoutProcessor
     }
 
     /**
+     * @param $cityConfig
+     * @return array
+     */
+    private function _getCityBillingComponentConfig($cityConfig)
+    {
+        $_cityConfig = [
+            'component' => 'SR_Base/js/form/element/autocomplete',
+            'config' => [
+                'customScope' => 'billingAddressfree',
+                'elementTmpl' => 'SR_Base/form/element/autocomplete',
+                'tooltip' => [
+                    'description' => __('Start typing and choose a city from the list.'),
+                ]
+            ],
+            'options' => [
+                'data' => $this->_citySource->getAllOptions(),
+                'validateValue' => true
+            ],
+            'sortOrder' => 65 // city should come before street. street position is 70.
+        ];
+
+        return array_merge($cityConfig, $_cityConfig);
+    }
+    /**
      * @param $postCodeConfig
      * @return array
      */
@@ -148,6 +196,27 @@ class LayoutProcessor
             'component' => 'SR_Directory/js/form/element/postcode',
             'config' => [
                 'customScope' => 'shippingAddress',
+                'template' => 'ui/form/field',
+                'elementTmpl' => 'SR_Directory/form/element/postcode',
+            ],
+            'options' => [
+                'sourceUrl' => $this->_context->getUrlBuilder()->getUrl('srdirectory/ajax/getpostcode'),
+            ],
+        ];
+
+        return array_merge($postCodeConfig, $_postCodeConfig);
+    }
+
+    /**
+     * @param $postCodeConfig
+     * @return array
+     */
+    private function _getPostcodeBillingComponentConfig($postCodeConfig)
+    {
+        $_postCodeConfig = [
+            'component' => 'SR_Directory/js/form/element/postcode',
+            'config' => [
+                'customScope' => 'billingAddressfree',
                 'template' => 'ui/form/field',
                 'elementTmpl' => 'SR_Directory/form/element/postcode',
             ],
