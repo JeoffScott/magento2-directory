@@ -45,6 +45,7 @@ define([
             var city = registry.get(this.parentName + '.city').value();
             var street = registry.get(this.parentName + '.street.0').value();
             var house = registry.get(this.parentName + '.house_number').value() || null;
+            var entrance = registry.get(this.parentName + '.entrance').value() || null;
             this.value('');
             this.warn('');
 
@@ -67,7 +68,7 @@ define([
                     "POB": null,
                     "Street": street,
                     "House": house,
-                    "Entrance": null
+                    "Entrance": entrance
                 },
                 success: $.proxy(function (response) {
                     this.updateValue(response.postcode);

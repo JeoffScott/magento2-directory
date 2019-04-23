@@ -26,8 +26,8 @@ class ShippingInformationManagement
         $shippingAddress = $addressInformation->getShippingAddress();
         $extAttributes = $shippingAddress->getExtensionAttributes();
         $shippingAddress->setHouseNumber($extAttributes->getHouseNumber());
+        $shippingAddress->setEntrance($extAttributes->getEntrance());
         $addressInformation->setShippingAddress($shippingAddress);
-//        $addressInformation->setHouseNumber($houseNumber);
         $billingAddress = $addressInformation->getBillingAddress();
         $addressInformation->setBillingAddress($billingAddress->setHouseNumber($billingAddress->getExtensionAttributes()->getHouseNumber()));
     }

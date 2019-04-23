@@ -102,5 +102,62 @@ class UpgradeData implements UpgradeDataInterface
             $attribute->save();
         }
 
+        if ( version_compare( $context->getVersion(), '1.0.3', '<' ) )  {
+            $this->createEntranceAttribute($setup,$customerSetup);
+
+        }
+
+    }
+
+    public function createEntranceAttribute(ModuleDataSetupInterface $setup,$customerSetup)
+    {
+        $attributeCode = 'entrance';
+
+        $customerSetup->addAttribute('customer_address', $attributeCode, [
+            'label' => 'Entrance',
+            'input' => 'select',
+            'type' => 'varchar',
+            'source' => 'SR\Directory\Model\Source\Entrance',
+            'required' => false,
+            'position' => 334,
+            'visible' => true,
+            'system' => false,
+            'is_used_in_grid' => false,
+            'is_visible_in_grid' => false,
+            'is_filterable_in_grid' => false,
+            'is_searchable_in_grid' => false,
+            'backend' => ''
+        ]);
+
+
+        $attribute = $customerSetup->getEavConfig()->getAttribute('customer_address', $attributeCode)
+            ->addData(['used_in_forms' => [
+                'customer_address_edit',
+                'customer_register_address',
+                'adminhtml_customer_address',
+                'adminhtml_checkout',
+                'customer_address'
+            ]]);
+        $attribute->save();
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable('quote_address'),
+            $attributeCode,
+            [
+                'type' => 'text',
+                'length' => 10,
+                'comment' => 'Entrance'
+            ]
+        );
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable('sales_order_address'),
+            $attributeCode,
+            [
+                'type' => 'text',
+                'length' => 10,
+                'comment' => 'Entrance'
+            ]
+        );
     }
 }

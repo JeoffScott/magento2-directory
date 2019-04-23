@@ -46,8 +46,8 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
     public function getShippingFormFields($result)
     {
         if(isset($result['components']['checkout']['children']['steps']['children']
-                ['shipping-step']['children']['shippingAddress']['children']
-                ['shipping-address-fieldset'])
+            ['shipping-step']['children']['shippingAddress']['children']
+            ['shipping-address-fieldset'])
         ){
 
             $shippingPostcodeFields = $this->getFields('shippingAddress.custom_attributes','shipping');
@@ -120,7 +120,11 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
     {
         $fields = [];
         foreach($this->getAdditionalFields($addressType) as $field){
-            $fields[$field] = $this->getField($field,$scope);
+            if($field == 'entrance'){
+                $fields[$field] = $this->getEntranceField($field,$scope);
+            }else {
+                $fields[$field] = $this->getHouseNumberField($field, $scope);
+            }
         }
         return $fields;
     }
@@ -130,7 +134,83 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
      * @param $scope
      * @return array
      */
-    public function getField($attributeCode,$scope)
+    public function getEntranceField($attributeCode,$scope)
+    {
+        $field = [
+            'component' => 'Magento_Ui/js/form/element/select',
+            'config' => [
+                // customScope is used to group elements within a single form (e.g. they can be validated separately)
+                'customScope' => $scope,
+                'customEntry' => null,
+                'template' => 'ui/form/field',
+                'elementTmpl' => 'ui/form/element/select',
+                'id' => 'drop-down'
+            ],
+            'dataScope' => $scope . '.' . $attributeCode,
+            'label' => __('Entrance'),
+            'provider' => 'checkoutProvider',
+            'sortOrder' => 76,
+            'validation' => [],
+            'options' => [
+                [
+                    'value' => '',
+                    'label' => ' ',
+                ],
+                [
+                    'value' => 'א',
+                    'label' => 'א',
+                ],
+                [
+                    'value' => 'ב',
+                    'label' => 'ב',
+                ],
+                [
+                    'value' => 'ג',
+                    'label' => 'ג',
+                ],
+                [
+                    'value' => 'ד',
+                    'label' => 'ד',
+                ],
+                [
+                    'value' => 'ה',
+                    'label' => 'ה',
+                ],
+                [
+                    'value' => 'ו',
+                    'label' => 'ו',
+                ],
+                [
+                    'value' => 'ז',
+                    'label' => 'ז',
+                ],
+                [
+                    'value' => 'ח',
+                    'label' => 'ח',
+                ],
+                [
+                    'value' => 'ט',
+                    'label' => 'ט',
+                ],
+                [
+                    'value' => 'י',
+                    'label' => 'י',
+                ],
+            ],
+            'filterBy' => null,
+            'customEntry' => null,
+            'visible' => true,
+        ];
+
+        return $field;
+    }
+
+    /**
+     * @param $attributeCode
+     * @param $scope
+     * @return array
+     */
+    public function getHouseNumberField($attributeCode,$scope)
     {
         $field = [
             'component' => 'Magento_Ui/js/form/element/abstract',

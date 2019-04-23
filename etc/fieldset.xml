@@ -6,15 +6,27 @@
                 <aspect name="to_order_address" />
                 <aspect name="to_customer_address" />
             </field>
+            <field name="entrance">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
         </fieldset>
         <fieldset id="extra_checkout_shipping_address_fields">
             <field name="house_number">
                 <aspect name="to_order_address" />
                 <aspect name="to_customer_address" />
             </field>
+            <field name="entrance">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
         </fieldset>
         <fieldset id="sales_convert_quote_address">
             <field name="house_number">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
+            <field name="entrance">
                 <aspect name="to_order_address" />
                 <aspect name="to_customer_address" />
             </field>
